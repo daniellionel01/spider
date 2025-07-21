@@ -13,6 +13,27 @@
 - [Bot Detection Tests](./spider_bot_detection/README.md) - Test various bot detectors to avoid captchas and account bans.
 - [Large Action Model](./spider_lam/README.md) - Give LLMs controller over the browser for self-healing workflows.
 
+## How it works
+
+```mermaid
+graph TD
+    Core[Core]
+    Extension[Browser Extension]
+    Server[Server]
+    Admin[Admin Panel]
+    LAM[Large Action Model]
+
+    Core --> Extension
+    Core --> Server
+    Core --> Admin
+    Core --> LAM
+
+    Server --> Extension
+    Admin --> Server
+    Admin --> Extension
+    LAM --> Server
+```
+
 ## Future Work
 
 Ideas and actionable tasks are collected and organised here: https://github.com/daniellionel01/spider/issues
