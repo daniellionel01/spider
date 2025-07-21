@@ -23,13 +23,13 @@ graph TD
     Extension[Browser Extension]
     Browser[Browser Instance]
 
-    %% Relationships
     Admin -- "Manages" --> Server
     Admin -- "Monitors" --> Extension
     LAM -- "Sends high-level actions" --> Server
     Server -- "Sends actions" --> Extension
-    Extension -- "Controls" --> Browser
-    Server -- "Manages" --> Browser```
+    Server -- "Manages" --> Browser
+    Extension -- "Executes actions in" --> Browser
+```
 
 ## Future Work
 
