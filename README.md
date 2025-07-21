@@ -1,5 +1,9 @@
 # 🕷️ Spider - Gleam Browser Automation
 
+<p align="center">
+  <img src="assets/wip-banner.svg" alt="Work in Progress" width="100%" />
+</p>
+
 ## Packages
 
 - [Core](./spider_core/README.md) - Shared code between packages.
@@ -8,3 +12,9 @@
 - [Admin Panel](./spider_admin/README.md) - Web UI to manage & control multiple spider servers & browsers.
 - [Bot Detection Tests](./spider_bot_detection/README.md) - Test various bot detectors to avoid captchas and account bans.
 - [Large Action Model](./spider_lam/README.md) - Give LLMs controller over the browser for self-healing workflows.
+
+## Future Work
+
+Ideas and actionable tasks are collected and organised here: https://github.com/daniellionel01/spider/issues
+
+Contributions are welcomed!
