@@ -17,16 +17,19 @@
 
 ```mermaid
 graph TD
-    Extension[Browser Extension]
-    Server[Server]
     Admin[Admin Panel]
     LAM[Large Action Model]
+    Server[Server]
+    Extension[Browser Extension]
+    Browser[Browser Instance]
 
-    Server --> Extension
-    Admin --> Server
-    Admin --> Extension
-    LAM --> Server
-```
+    %% Relationships
+    Admin -- "Manages" --> Server
+    Admin -- "Monitors" --> Extension
+    LAM -- "Sends high-level actions" --> Server
+    Server -- "Sends actions" --> Extension
+    Extension -- "Controls" --> Browser
+    Server -- "Manages" --> Browser```
 
 ## Future Work
 
