@@ -16,17 +16,12 @@
 ## How it works
 
 ```mermaid
-graph LR
-    subgraph Control
-        Admin[Admin Panel]
-        LAM[Large Action Model]
-    end
-
-    subgraph Execution
-        Server[Server]
-        Extension[Browser Extension]
-        Browser[Browser Instance]
-    end
+graph TD
+    Admin[Admin Panel]
+    LAM[Large Action Model]
+    Server[Server]
+    Extension[Browser Extension]
+    Browser[Browser Instance]
 
     Admin -- "Manages" --> Server
     Admin -- "Monitors" --> Extension
