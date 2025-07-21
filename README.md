@@ -17,16 +17,10 @@
 
 ```mermaid
 graph TD
-    Core[Core]
     Extension[Browser Extension]
     Server[Server]
     Admin[Admin Panel]
     LAM[Large Action Model]
-
-    Core --> Extension
-    Core --> Server
-    Core --> Admin
-    Core --> LAM
 
     Server --> Extension
     Admin --> Server
