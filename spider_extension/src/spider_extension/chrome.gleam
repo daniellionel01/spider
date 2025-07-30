@@ -13,7 +13,7 @@ pub type RuntimeOnMessage(a, b) =
   fn(RuntimeMessage(a)) -> b
 
 @external(javascript, "./chrome_ffi.js", "tabs_on_activated")
-pub fn tabs_on_activated(cb: TabsOnActivated(a)) -> a
+pub fn tabs_on_activated(cb: TabsOnActivated(a)) -> b
 
 @external(javascript, "./chrome_ffi.js", "tabs_send_message")
 pub fn tabs_send_message(tab_id: Int, message: a) -> b
