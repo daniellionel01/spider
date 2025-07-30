@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Spider",
+  "version": "1.0.0",
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "./build/dev/javascript/spider_extension/background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "tabs",
+    "proxy",
+    "alarms",
+    "storage",
+    "debugger",
+    "activeTab",
+    "offscreen",
+    "webNavigation",
+    "unlimitedStorage",
+    "scripting"
+  ]
+}
