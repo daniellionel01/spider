@@ -8,7 +8,11 @@ pub fn init() {
   chrome.runtime_on_message(handle_message)
 }
 
-pub fn handle_message(msg: chrome.RuntimeMessage(background.Action)) {
+pub fn handle_message(
+  msg: chrome.RuntimeMessage(background.Action),
+  sender: chrome.MessageSender,
+) {
+  echo sender
   case msg.request {
     Click(el:) -> echo { "supposed to click: " <> el }
   }
