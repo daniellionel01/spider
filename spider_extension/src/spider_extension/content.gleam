@@ -12,7 +12,7 @@ pub fn handle_message(
   msg: chrome.RuntimeMessage(background.Action),
   sender: chrome.MessageSender,
 ) {
-  echo sender
+  echo sender.tab
   case msg.request {
     Click(el:) -> echo { "supposed to click: " <> el }
   }
