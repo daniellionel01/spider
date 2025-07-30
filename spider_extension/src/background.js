@@ -1,3 +1,3 @@
-import { main } from "./spider_extension.mjs";
+import { init } from "./spider_extension/background.mjs";
 
-main();
+init();

@@ -1,0 +1,6 @@
+set dotenv-load
+
+build:
+  gleam build
+  bun build ./build/dev/javascript/spider_extension/content.js --outfile=./build/dev/javascript/spider_extension/content.dist.js --target browser
+  bun build ./build/dev/javascript/spider_extension/background.js --outfile=./build/dev/javascript/spider_extension/background.dist.js --target browser
