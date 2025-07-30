@@ -1,9 +1,12 @@
 import spider_extension/chrome
 
+pub type Action {
+  Click(el: String)
+}
+
 pub fn init() {
   chrome.tabs_on_activated(fn(info) {
-    echo info.tab_id
-    Nil
+    let action = Click("#something")
+    chrome.tabs_send_message(info.tab_id, action)
   })
-  // chrome.tabs.sendMessage(info.tabId, { action: "doSomething" });
 }
