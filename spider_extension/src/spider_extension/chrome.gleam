@@ -12,7 +12,7 @@ pub type RuntimeMessage(a) {
 }
 
 pub type MutedInfo {
-  MutedInfo(extension_id: Option(String), muted: Bool)
+  MutedInfo(extension_id: Option(String), muted: Bool, reason: Option(MutedInfoReason))
 }
 
 pub type TabStatus {
@@ -63,15 +63,181 @@ pub type MessageSender {
   )
 }
 
+pub type MutedInfoReason {
+  User
+  Capture
+  Extension
+}
+
+pub type WindowType {
+  Normal
+  Popup
+  Panel
+  App
+  DevTools
+}
+
+pub type ZoomSettingsMode {
+  Automatic
+  Manual
+  Disabled
+}
+
+pub type ZoomSettingsScope {
+  PerOrigin
+  PerTab
+}
+
+pub type ZoomSettings {
+  ZoomSettings(
+    mode: Option(ZoomSettingsMode),
+    scope: Option(ZoomSettingsScope),
+    default_zoom_factor: Option(Float)
+  )
+}
+
+pub type CreateProperties {
+  CreateProperties(
+    index: Option(Int),
+    opener_tab_id: Option(Int),
+    url: Option(String),
+    pinned: Option(Bool),
+    window_id: Option(Int),
+    active: Option(Bool)
+  )
+}
+
+pub type UpdateProperties {
+  UpdateProperties(
+    pinned: Option(Bool),
+    opener_tab_id: Option(Int),
+    url: Option(String),
+    highlighted: Option(Bool),
+    active: Option(Bool),
+    muted: Option(Bool),
+    auto_discardable: Option(Bool)
+  )
+}
+
+pub type ReloadProperties {
+  ReloadProperties(
+    bypass_cache: Option(Bool)
+  )
+}
+
+pub type MoveProperties {
+  MoveProperties(
+    index: Int,
+    window_id: Option(Int)
+  )
+}
+
 pub type QueryInfo {
-  QueryInfo
+  QueryInfo(
+    status: Option(TabStatus),
+    last_focused_window: Option(Bool),
+    window_id: Option(Int),
+    window_type: Option(WindowType),
+    active: Option(Bool),
+    index: Option(Int),
+    title: Option(String),
+    url: Option(String),
+    current_window: Option(Bool),
+    highlighted: Option(Bool),
+    discarded: Option(Bool),
+    frozen: Option(Bool),
+    auto_discardable: Option(Bool),
+    pinned: Option(Bool),
+    audible: Option(Bool),
+    muted: Option(Bool),
+    group_id: Option(Int)
+  )
 }
 
 pub type TabsQuery(a) =
   fn(List(Tab)) -> a
 
+pub type TabsCallback(a) =
+  fn(Tab) -> a
+
+pub type TabsListCallback(a) =
+  fn(List(Tab)) -> a
+
+pub type VoidCallback =
+  fn() -> Nil
+
 pub type RuntimeOnMessage(a, b) =
   fn(RuntimeMessage(a), MessageSender) -> b
+
+pub type OnUpdatedInfo {
+  OnUpdatedInfo(
+    audible: Option(Bool),
+    auto_discardable: Option(Bool),
+    discarded: Option(Bool),
+    fav_icon_url: Option(String),
+    frozen: Option(Bool),
+    group_id: Option(Int),
+    muted_info: Option(MutedInfo),
+    pinned: Option(Bool),
+    status: Option(TabStatus),
+    title: Option(String),
+    url: Option(String)
+  )
+}
+
+pub type OnRemovedInfo {
+  OnRemovedInfo(
+    is_window_closing: Bool,
+    window_id: Int
+  )
+}
+
+pub type OnActivatedInfo {
+  OnActivatedInfo(
+    tab_id: Int,
+    window_id: Int
+  )
+}
+
+pub type OnMovedInfo {
+  OnMovedInfo(
+    from_index: Int,
+    to_index: Int,
+    window_id: Int
+  )
+}
+
+pub type OnDetachedInfo {
+  OnDetachedInfo(
+    old_position: Int,
+    old_window_id: Int
+  )
+}
+
+pub type OnAttachedInfo {
+  OnAttachedInfo(
+    new_position: Int,
+    new_window_id: Int
+  )
+}
+
+pub type TabsOnUpdated(a) =
+  fn(Int, OnUpdatedInfo, Tab) -> a
+
+pub type TabsOnRemoved(a) =
+  fn(Int, OnRemovedInfo) -> a
+
+pub type TabsOnCreated(a) =
+  fn(Tab) -> a
+
+pub type TabsOnMoved(a) =
+  fn(Int, OnMovedInfo) -> a
+
+pub type TabsOnDetached(a) =
+  fn(Int, OnDetachedInfo) -> a
+
+pub type TabsOnAttached(a) =
+  fn(Int, OnAttachedInfo) -> a
 
 @external(javascript, "./chrome_ffi.js", "tabs_on_activated")
 pub fn tabs_on_activated(cb: TabsOnActivated(a)) -> b
@@ -84,3 +250,45 @@ pub fn runtime_on_message(cb: RuntimeOnMessage(a, b)) -> b
 
 @external(javascript, "./chrome_ffi.js", "tabs_query")
 pub fn tabs_query(query_info: QueryInfo, cb: TabsQuery(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_get")
+pub fn tabs_get(tab_id: Int, cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_get_current")
+pub fn tabs_get_current(cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_create")
+pub fn tabs_create(properties: CreateProperties, cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_update")
+pub fn tabs_update(tab_id: Option(Int), properties: UpdateProperties, cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_reload")
+pub fn tabs_reload(tab_id: Option(Int), properties: Option(ReloadProperties), cb: VoidCallback) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_remove")
+pub fn tabs_remove(tab_id: Int, cb: VoidCallback) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_move")
+pub fn tabs_move(tab_id: Int, move_properties: MoveProperties, cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_duplicate")
+pub fn tabs_duplicate(tab_id: Int, cb: TabsCallback(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_updated")
+pub fn tabs_on_updated(cb: TabsOnUpdated(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_removed")
+pub fn tabs_on_removed(cb: TabsOnRemoved(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_created")
+pub fn tabs_on_created(cb: TabsOnCreated(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_moved")
+pub fn tabs_on_moved(cb: TabsOnMoved(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_detached")
+pub fn tabs_on_detached(cb: TabsOnDetached(a)) -> b
+
+@external(javascript, "./chrome_ffi.js", "tabs_on_attached")
+pub fn tabs_on_attached(cb: TabsOnAttached(a)) -> b

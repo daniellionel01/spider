@@ -27,3 +27,4 @@ We are interested in the following chrome apis:
 Important to remember:
 - every type needs to mapped manually in javascript to convert between camel case and pascal case
 - enums in typescript are just strings and need to converted to the corresponding js class created by gleam
+- optional fields in typescript are mapped to the `Option` type in gleam. there is a dedicated `make_option` helper in the chrome_ffi.js file.
