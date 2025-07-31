@@ -16,26 +16,7 @@
 
 ## How it works
 
-```mermaid
-graph LR
-    subgraph Control
-        Admin[Admin Panel]
-        LAM[Large Action Model]
-    end
-
-    subgraph Execution
-        Server[Server]
-        Extension[Browser Extension]
-        Browser[Browser Instance]
-    end
-
-    Admin -- "Manages" --> Server
-    Admin -- "Monitors" --> Extension
-    LAM -- "Sends high-level actions" --> Server
-    Server -- "Sends actions" --> Extension
-    Server -- "Manages" --> Browser
-    Extension -- "Executes actions in" --> Browser
-```
+TODO
 
 ## Future Work
 
