@@ -20,8 +20,6 @@ import {
   PerTab,
 } from "./tabs.mjs";
 
-// Using Gleam's standard library unwrap function to extract option value
-
 export function tabs_on_activated(cb) {
   chrome.tabs.onActivated.addListener((info) => {
     cb({ tab_id: info.tabId, window_id: info.windowId });
