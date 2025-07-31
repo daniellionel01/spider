@@ -6,6 +6,7 @@
 
 ## Packages
 
+- [Spider JS](./spider_js/README.md) - Pure JavaScript utility functions & API wrappers for Gleam.
 - [Core](./spider_core/README.md) - Shared code between packages.
 - [Browser Extension](./spider_extension/README.md) - Executes the actions sent to the server in the browser.
 - [Server](./spider_server/README.md) - Manages the browser instance & provides an API to receive actions to perform in the browser.
