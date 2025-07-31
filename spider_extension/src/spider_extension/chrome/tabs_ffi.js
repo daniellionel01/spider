@@ -59,7 +59,6 @@ export function tabs_create(properties, cb) {
 
 export function tabs_update(tab_id, properties, cb) {
   const jsProperties = convert_update_properties_to_js(properties);
-  // Handle optional tab_id
   const tab_id_value = option.unwrap(tab_id, undefined);
 
   if (tab_id_value !== undefined) {

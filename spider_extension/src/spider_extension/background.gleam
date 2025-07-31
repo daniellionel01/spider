@@ -1,5 +1,6 @@
 import gleam/list
-import gleam/option.{None, Some}
+import gleam/option.{Some}
+import gleam/string
 import spider_extension/chrome/tabs
 
 pub type Action {
@@ -10,27 +11,17 @@ pub fn init() {
   tabs.on_activated(fn(info) {
     let query =
       tabs.QueryInfo(
-        status: None,
-        last_focused_window: None,
+        ..tabs.default_query_info(),
         window_id: Some(info.window_id),
-        window_type: None,
-        active: Some(True),
-        index: None,
-        title: None,
-        url: None,
-        current_window: None,
-        highlighted: None,
-        discarded: None,
-        frozen: None,
-        auto_discardable: None,
-        pinned: None,
-        audible: None,
-        muted: None,
-        group_id: None,
       )
     tabs.query(query, fn(tab_list) {
-      let assert Ok(tab) = list.first(tab_list)
-      echo tab.status
+      let assert Ok(duckduckgo) =
+        list.find(tab_list, fn(t) {
+          t.url
+          |> option.unwrap("")
+          |> string.contains("duckduckgo")
+        })
+      echo duckduckgo
     })
 
     let action = Click("#something")

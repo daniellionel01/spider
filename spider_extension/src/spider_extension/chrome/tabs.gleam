@@ -1,4 +1,4 @@
-import gleam/option.{type Option}
+import gleam/option.{type Option, None}
 
 pub type TabInfo {
   TabInfo(tab_id: Int, window_id: Int)
@@ -14,7 +14,11 @@ pub type MutedInfoReason {
 }
 
 pub type MutedInfo {
-  MutedInfo(extension_id: Option(String), muted: Bool, reason: Option(MutedInfoReason))
+  MutedInfo(
+    extension_id: Option(String),
+    muted: Bool,
+    reason: Option(MutedInfoReason),
+  )
 }
 
 pub type TabStatus {
@@ -74,7 +78,7 @@ pub type ZoomSettings {
   ZoomSettings(
     mode: Option(ZoomSettingsMode),
     scope: Option(ZoomSettingsScope),
-    default_zoom_factor: Option(Float)
+    default_zoom_factor: Option(Float),
   )
 }
 
@@ -85,7 +89,7 @@ pub type CreateProperties {
     url: Option(String),
     pinned: Option(Bool),
     window_id: Option(Int),
-    active: Option(Bool)
+    active: Option(Bool),
   )
 }
 
@@ -97,21 +101,28 @@ pub type UpdateProperties {
     highlighted: Option(Bool),
     active: Option(Bool),
     muted: Option(Bool),
-    auto_discardable: Option(Bool)
+    auto_discardable: Option(Bool),
+  )
+}
+
+pub fn default_update_properties() {
+  UpdateProperties(
+    pinned: None,
+    opener_tab_id: None,
+    url: None,
+    highlighted: None,
+    active: None,
+    muted: None,
+    auto_discardable: None,
   )
 }
 
 pub type ReloadProperties {
-  ReloadProperties(
-    bypass_cache: Option(Bool)
-  )
+  ReloadProperties(bypass_cache: Option(Bool))
 }
 
 pub type MoveProperties {
-  MoveProperties(
-    index: Int,
-    window_id: Option(Int)
-  )
+  MoveProperties(index: Int, window_id: Option(Int))
 }
 
 pub type QueryInfo {
@@ -132,7 +143,29 @@ pub type QueryInfo {
     pinned: Option(Bool),
     audible: Option(Bool),
     muted: Option(Bool),
-    group_id: Option(Int)
+    group_id: Option(Int),
+  )
+}
+
+pub fn default_query_info() {
+  QueryInfo(
+    status: None,
+    last_focused_window: None,
+    window_id: None,
+    window_type: None,
+    active: None,
+    index: None,
+    title: None,
+    url: None,
+    current_window: None,
+    highlighted: None,
+    discarded: None,
+    frozen: None,
+    auto_discardable: None,
+    pinned: None,
+    audible: None,
+    muted: None,
+    group_id: None,
   )
 }
 
@@ -160,44 +193,28 @@ pub type OnUpdatedInfo {
     pinned: Option(Bool),
     status: Option(TabStatus),
     title: Option(String),
-    url: Option(String)
+    url: Option(String),
   )
 }
 
 pub type OnRemovedInfo {
-  OnRemovedInfo(
-    is_window_closing: Bool,
-    window_id: Int
-  )
+  OnRemovedInfo(is_window_closing: Bool, window_id: Int)
 }
 
 pub type OnActivatedInfo {
-  OnActivatedInfo(
-    tab_id: Int,
-    window_id: Int
-  )
+  OnActivatedInfo(tab_id: Int, window_id: Int)
 }
 
 pub type OnMovedInfo {
-  OnMovedInfo(
-    from_index: Int,
-    to_index: Int,
-    window_id: Int
-  )
+  OnMovedInfo(from_index: Int, to_index: Int, window_id: Int)
 }
 
 pub type OnDetachedInfo {
-  OnDetachedInfo(
-    old_position: Int,
-    old_window_id: Int
-  )
+  OnDetachedInfo(old_position: Int, old_window_id: Int)
 }
 
 pub type OnAttachedInfo {
-  OnAttachedInfo(
-    new_position: Int,
-    new_window_id: Int
-  )
+  OnAttachedInfo(new_position: Int, new_window_id: Int)
 }
 
 pub type TabsOnUpdated(a) =
@@ -237,16 +254,28 @@ pub fn get_current(cb: TabsCallback(a)) -> b
 pub fn create(properties: CreateProperties, cb: TabsCallback(a)) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_update")
-pub fn update(tab_id: Option(Int), properties: UpdateProperties, cb: TabsCallback(a)) -> b
+pub fn update(
+  tab_id: Option(Int),
+  properties: UpdateProperties,
+  cb: TabsCallback(a),
+) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_reload")
-pub fn reload(tab_id: Option(Int), properties: Option(ReloadProperties), cb: VoidCallback) -> b
+pub fn reload(
+  tab_id: Option(Int),
+  properties: Option(ReloadProperties),
+  cb: VoidCallback,
+) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_remove")
 pub fn remove(tab_id: Int, cb: VoidCallback) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_move")
-pub fn move(tab_id: Int, move_properties: MoveProperties, cb: TabsCallback(a)) -> b
+pub fn move(
+  tab_id: Int,
+  move_properties: MoveProperties,
+  cb: TabsCallback(a),
+) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_duplicate")
 pub fn duplicate(tab_id: Int, cb: TabsCallback(a)) -> b
