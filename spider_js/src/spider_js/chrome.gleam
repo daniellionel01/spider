@@ -1,5 +1,5 @@
 import gleam/option.{type Option}
-import spider_extension/chrome/tabs.{type Tab}
+import spider_js/chrome/tabs.{type Tab}
 
 pub type RuntimeMessage(a) {
   RuntimeMessage(request: a)

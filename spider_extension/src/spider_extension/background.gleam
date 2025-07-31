@@ -1,13 +1,13 @@
 import gleam/list
 import gleam/option.{Some}
 import gleam/string
-import spider_extension/chrome/tabs
+import spider_js/chrome/tabs
 
 pub type Action {
   Click(el: String)
 }
 
-pub fn init() {
+pub fn main() {
   tabs.on_activated(fn(info) {
     let query =
       tabs.QueryInfo(

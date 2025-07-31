@@ -5,6 +5,7 @@ target = "javascript"
 
 [dependencies]
 gleam_stdlib = ">= 0.44.0 and < 2.0.0"
+spider_js = { path = "../spider_js" }
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"

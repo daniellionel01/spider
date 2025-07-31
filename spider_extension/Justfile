@@ -1,9 +1,17 @@
 set dotenv-load
 
 build:
+  #!/bin/bash
   gleam build
-  bun build ./build/dev/javascript/spider_extension/content.js --outfile=./build/dev/javascript/spider_extension/content.dist.js --target browser
-  bun build ./build/dev/javascript/spider_extension/background.js --outfile=./build/dev/javascript/spider_extension/background.dist.js --target browser
+
+  CONTENT_FILE=./build/dev/javascript/spider_extension/spider_extension/content.js
+  BACKGROUND_FILE=./build/dev/javascript/spider_extension/spider_extension/background.js
+
+  echo -e "import { main } from './background.mjs' ;\nmain();" > $BACKGROUND_FILE
+  echo -e "import { main } from './content.mjs' ;\nmain();" > $CONTENT_FILE
+
+  bun build $CONTENT_FILE --outfile=./build/dev/javascript/spider_extension/spider_extension/content.dist.js --target browser
+  bun build $BACKGROUND_FILE --outfile=./build/dev/javascript/spider_extension/spider_extension/background.dist.js --target browser
 
 build-watch:
   watchexec \
