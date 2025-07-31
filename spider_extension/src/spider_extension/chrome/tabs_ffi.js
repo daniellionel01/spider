@@ -20,10 +20,7 @@ import {
   PerTab,
 } from "./tabs.mjs";
 
-// Helper function to extract option value
-function extract_option(option_value) {
-  return option_value && option_value._type === "Some" ? option_value._value : undefined;
-}
+// Using Gleam's standard library unwrap function to extract option value
 
 export function tabs_on_activated(cb) {
   chrome.tabs.onActivated.addListener((info) => {
@@ -65,7 +62,7 @@ export function tabs_create(properties, cb) {
 export function tabs_update(tab_id, properties, cb) {
   const jsProperties = convert_update_properties_to_js(properties);
   // Handle optional tab_id
-  const tab_id_value = extract_option(tab_id);
+  const tab_id_value = option.unwrap(tab_id, undefined);
 
   if (tab_id_value !== undefined) {
     chrome.tabs.update(tab_id_value, jsProperties, (tab) => {
@@ -80,7 +77,7 @@ export function tabs_update(tab_id, properties, cb) {
 
 export function tabs_reload(tab_id, properties, cb) {
   const jsProperties = convert_reload_properties_to_js(properties);
-  const tab_id_value = extract_option(tab_id);
+  const tab_id_value = option.unwrap(tab_id, undefined);
 
   if (tab_id_value !== undefined) {
     if (jsProperties) {
@@ -334,85 +331,85 @@ function convert_query_info_to_js(query_info) {
   // Convert from gleam format (snake_case) to JS format (camelCase)
   const result = {};
 
-  if (query_info.status && query_info.status._type === "Some") {
-    result.status = convert_tab_status_to_js(query_info.status._value);
+  if (option.is_some(query_info.status)) {
+    result.status = convert_tab_status_to_js(option.unwrap(query_info.status, null));
   }
 
-  const last_focused_window = extract_option(query_info.last_focused_window);
+  const last_focused_window = option.unwrap(query_info.last_focused_window, undefined);
   if (last_focused_window !== undefined) {
     result.lastFocusedWindow = last_focused_window;
   }
 
-  const window_id = extract_option(query_info.window_id);
+  const window_id = option.unwrap(query_info.window_id, undefined);
   if (window_id !== undefined) {
     result.windowId = window_id;
   }
 
-  if (query_info.window_type && query_info.window_type._type === "Some") {
-    result.windowType = convert_window_type_to_js(query_info.window_type._value);
+  if (option.is_some(query_info.window_type)) {
+    result.windowType = convert_window_type_to_js(option.unwrap(query_info.window_type, null));
   }
 
-  const active = extract_option(query_info.active);
+  const active = option.unwrap(query_info.active, undefined);
   if (active !== undefined) {
     result.active = active;
   }
 
-  const index = extract_option(query_info.index);
+  const index = option.unwrap(query_info.index, undefined);
   if (index !== undefined) {
     result.index = index;
   }
 
-  const title = extract_option(query_info.title);
+  const title = option.unwrap(query_info.title, undefined);
   if (title !== undefined) {
     result.title = title;
   }
 
-  const url = extract_option(query_info.url);
+  const url = option.unwrap(query_info.url, undefined);
   if (url !== undefined) {
     result.url = url;
   }
 
-  const current_window = extract_option(query_info.current_window);
+  const current_window = option.unwrap(query_info.current_window, undefined);
   if (current_window !== undefined) {
     result.currentWindow = current_window;
   }
 
-  const highlighted = extract_option(query_info.highlighted);
+  const highlighted = option.unwrap(query_info.highlighted, undefined);
   if (highlighted !== undefined) {
     result.highlighted = highlighted;
   }
 
-  const discarded = extract_option(query_info.discarded);
+  const discarded = option.unwrap(query_info.discarded, undefined);
   if (discarded !== undefined) {
     result.discarded = discarded;
   }
 
-  const frozen = extract_option(query_info.frozen);
+  const frozen = option.unwrap(query_info.frozen, undefined);
   if (frozen !== undefined) {
     result.frozen = frozen;
   }
 
-  const auto_discardable = extract_option(query_info.auto_discardable);
+  const auto_discardable = option.unwrap(query_info.auto_discardable, undefined);
   if (auto_discardable !== undefined) {
     result.autoDiscardable = auto_discardable;
   }
 
-  const pinned = extract_option(query_info.pinned);
+  const pinned = option.unwrap(query_info.pinned, undefined);
   if (pinned !== undefined) {
     result.pinned = pinned;
   }
 
-  const audible = extract_option(query_info.audible);
+  const audible = option.unwrap(query_info.audible, undefined);
   if (audible !== undefined) {
     result.audible = audible;
   }
 
-  const muted = extract_option(query_info.muted);
+  const muted = option.unwrap(query_info.muted, undefined);
   if (muted !== undefined) {
     result.muted = muted;
   }
 
-  const group_id = extract_option(query_info.group_id);
+  const group_id = option.unwrap(query_info.group_id, undefined);
   if (group_id !== undefined) {
     result.groupId = group_id;
   }
@@ -423,32 +420,32 @@ function convert_query_info_to_js(query_info) {
 function convert_create_properties_to_js(properties) {
   const result = {};
 
-  const index = extract_option(properties.index);
+  const index = option.unwrap(properties.index, undefined);
   if (index !== undefined) {
     result.index = index;
   }
 
-  const opener_tab_id = extract_option(properties.opener_tab_id);
+  const opener_tab_id = option.unwrap(properties.opener_tab_id, undefined);
   if (opener_tab_id !== undefined) {
     result.openerTabId = opener_tab_id;
   }
 
-  const url = extract_option(properties.url);
+  const url = option.unwrap(properties.url, undefined);
   if (url !== undefined) {
     result.url = url;
   }
 
-  const pinned = extract_option(properties.pinned);
+  const pinned = option.unwrap(properties.pinned, undefined);
   if (pinned !== undefined) {
     result.pinned = pinned;
   }
 
-  const window_id = extract_option(properties.window_id);
+  const window_id = option.unwrap(properties.window_id, undefined);
   if (window_id !== undefined) {
     result.windowId = window_id;
   }
 
-  const active = extract_option(properties.active);
+  const active = option.unwrap(properties.active, undefined);
   if (active !== undefined) {
     result.active = active;
   }
@@ -459,37 +456,37 @@ function convert_create_properties_to_js(properties) {
 function convert_update_properties_to_js(properties) {
   const result = {};
 
-  const pinned = extract_option(properties.pinned);
+  const pinned = option.unwrap(properties.pinned, undefined);
   if (pinned !== undefined) {
     result.pinned = pinned;
   }
 
-  const opener_tab_id = extract_option(properties.opener_tab_id);
+  const opener_tab_id = option.unwrap(properties.opener_tab_id, undefined);
   if (opener_tab_id !== undefined) {
     result.openerTabId = opener_tab_id;
   }
 
-  const url = extract_option(properties.url);
+  const url = option.unwrap(properties.url, undefined);
   if (url !== undefined) {
     result.url = url;
   }
 
-  const highlighted = extract_option(properties.highlighted);
+  const highlighted = option.unwrap(properties.highlighted, undefined);
   if (highlighted !== undefined) {
     result.highlighted = highlighted;
   }
 
-  const active = extract_option(properties.active);
+  const active = option.unwrap(properties.active, undefined);
   if (active !== undefined) {
     result.active = active;
   }
 
-  const muted = extract_option(properties.muted);
+  const muted = option.unwrap(properties.muted, undefined);
   if (muted !== undefined) {
     result.muted = muted;
   }
 
-  const auto_discardable = extract_option(properties.auto_discardable);
+  const auto_discardable = option.unwrap(properties.auto_discardable, undefined);
   if (auto_discardable !== undefined) {
     result.autoDiscardable = auto_discardable;
   }
@@ -498,11 +495,11 @@ function convert_update_properties_to_js(properties) {
 }
 
 function convert_reload_properties_to_js(properties) {
-  if (!properties || properties._type === "None") return undefined;
-  const props = properties._value;
+  if (option.is_none(properties)) return undefined;
+  const props = option.unwrap(properties, null);
   const result = {};
 
-  const bypass_cache = extract_option(props.bypass_cache);
+  const bypass_cache = option.unwrap(props.bypass_cache, undefined);
   if (bypass_cache !== undefined) {
     result.bypassCache = bypass_cache;
   }
@@ -515,7 +512,7 @@ function convert_move_properties_to_js(properties) {
     index: properties.index,
   };
 
-  const window_id = extract_option(properties.window_id);
+  const window_id = option.unwrap(properties.window_id, undefined);
   if (window_id !== undefined) {
     result.windowId = window_id;
   }
