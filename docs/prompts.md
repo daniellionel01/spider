@@ -7,6 +7,9 @@ You can take a look at `src/spider_extension/chrome.gleam` and `src/spider_exten
 I have already downloaded and broken up all of the chrome apis into their type definitions in `../docs/chrome_apis/namespaces`.
 You may explore them to get an idea of what types, functions and events to implement.
 
+With this information please implement the rest of the ffi for `chrome.tabs`.
+Side note: I still haven't finished implementing the `QueryInfo` type in gleam.
+
 We are interested in the following chrome apis:
 - chrome.tabs
 - chrome.runtime
