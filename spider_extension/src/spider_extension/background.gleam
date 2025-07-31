@@ -1,15 +1,15 @@
 import gleam/list
 import gleam/option.{None, Some}
-import spider_extension/chrome
+import spider_extension/chrome/tabs
 
 pub type Action {
   Click(el: String)
 }
 
 pub fn init() {
-  chrome.tabs_on_activated(fn(info) {
+  tabs.on_activated(fn(info) {
     let query =
-      chrome.QueryInfo(
+      tabs.QueryInfo(
         status: None,
         last_focused_window: None,
         window_id: Some(info.window_id),
@@ -28,12 +28,12 @@ pub fn init() {
         muted: None,
         group_id: None,
       )
-    chrome.tabs_query(query, fn(tabs) {
-      let assert Ok(tab) = list.first(tabs)
+    tabs.query(query, fn(tab_list) {
+      let assert Ok(tab) = list.first(tab_list)
       echo tab.status
     })
 
     let action = Click("#something")
-    chrome.tabs_send_message(info.tab_id, action)
+    tabs.send_message(info.tab_id, action)
   })
 }
