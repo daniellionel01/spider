@@ -4,3 +4,10 @@ build:
   gleam build
   bun build ./build/dev/javascript/spider_extension/content.js --outfile=./build/dev/javascript/spider_extension/content.dist.js --target browser
   bun build ./build/dev/javascript/spider_extension/background.js --outfile=./build/dev/javascript/spider_extension/background.dist.js --target browser
+
+build-watch:
+  watchexec \
+     --restart --verbose --wrap-process=session --stop-signal SIGTERM \
+     --exts gleam,js --debounce 500ms \
+     --watch src/ \
+     -- "just build"
