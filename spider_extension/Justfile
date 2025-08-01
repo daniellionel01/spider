@@ -4,14 +4,17 @@ build:
   #!/bin/bash
   gleam build
 
-  CONTENT_FILE=./build/dev/javascript/spider_extension/spider_extension/content.js
-  BACKGROUND_FILE=./build/dev/javascript/spider_extension/spider_extension/background.js
+  DIR=./build/dev/javascript/spider_extension/spider_extension
+  CONTENT_FILE=$DIR/content.js
+  BACKGROUND_FILE=$DIR/background.js
+  CONTENT_DIST_FILE=$DIR/content.dist.js
+  BACKGROUND_DIST_FILE=$DIR/background.dist.js
 
   echo -e "import { main } from './background.mjs' ;\nmain();" > $BACKGROUND_FILE
   echo -e "import { main } from './content.mjs' ;\nmain();" > $CONTENT_FILE
 
-  bun build $CONTENT_FILE --outfile=./build/dev/javascript/spider_extension/spider_extension/content.dist.js --target browser
-  bun build $BACKGROUND_FILE --outfile=./build/dev/javascript/spider_extension/spider_extension/background.dist.js --target browser
+  bun build $CONTENT_FILE --outfile=$CONTENT_DIST_FILE --target browser
+  bun build $BACKGROUND_FILE --outfile=$BACKGROUND_DIST_FILE --target browser
 
 build-watch:
   watchexec \

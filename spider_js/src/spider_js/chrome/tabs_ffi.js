@@ -26,8 +26,9 @@ export function tabs_on_activated(cb) {
   });
 }
 
-export function tabs_send_message(tab_id, payload) {
-  chrome.tabs.sendMessage(tab_id, payload);
+export function tabs_send_message(tab_id, payload, cb) {
+  let callback = option.unwrap(cb, undefined);
+  chrome.tabs.sendMessage(tab_id, payload, undefined, callback);
 }
 
 export function tabs_query(query_info, cb) {

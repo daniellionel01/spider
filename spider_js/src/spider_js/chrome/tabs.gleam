@@ -235,11 +235,18 @@ pub type TabsOnDetached(a) =
 pub type TabsOnAttached(a) =
   fn(Int, OnAttachedInfo) -> a
 
+pub type SendMessageCallback(a, b) =
+  fn(a) -> b
+
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_on_activated")
 pub fn on_activated(cb: TabsOnActivated(a)) -> b
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_send_message")
-pub fn send_message(tab_id: Int, message: a) -> b
+pub fn send_message(
+  tab_id: Int,
+  message: a,
+  cb: Option(SendMessageCallback(b, c)),
+) -> d
 
 @external(javascript, "../chrome/tabs_ffi.js", "tabs_query")
 pub fn query(query_info: QueryInfo, cb: TabsQuery(a)) -> b

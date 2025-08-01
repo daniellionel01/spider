@@ -1,5 +1,6 @@
-import * as option from "../../gleam_stdlib/gleam/option.mjs";
-import { make_tab } from "./chrome/tabs_ffi.js";
+import * as option from "../../../gleam_stdlib/gleam/option.mjs";
+import { make_tab } from "./tabs_ffi.js";
+import { HandlerAsync, HandlerSync } from "./runtime.mjs";
 
 function make_sender(sender) {
   return {
@@ -22,8 +23,13 @@ export function make_option(value) {
   return new option.Some(value);
 }
 
-export function runtime_on_message(cb) {
-  chrome.runtime.onMessage.addListener((request, sender, _sendResponse) => {
-    cb({ request }, make_sender(sender));
+export function runtime_on_message(handler) {
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (handler instanceof HandlerSync) {
+      handler.cb({ request }, make_sender(sender));
+    } else if (handler instanceof HandlerAsync) {
+      handler.cb({ request }, make_sender(sender), sendResponse);
+      return true;
+    }
   });
 }

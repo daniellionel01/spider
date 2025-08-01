@@ -1,19 +1,26 @@
 import gleam/io
-import spider_extension/background.{Click}
-import spider_js/chrome
+import spider_core/actions
+import spider_js/chrome/runtime
+import spider_js/window
 
 pub fn main() {
-  io.println("Hello from spider_extension!")
+  // runtime.on_message(runtime.HandlerSync(handle_message))
+  runtime.on_message(runtime.HandlerAsync(handle_message))
 
-  chrome.runtime_on_message(handle_message)
+  window.add_event_listener("load", onload)
+}
+
+fn onload(_e: window.Event(a)) {
+  io.println("Hello from spider_extension!")
 }
 
 fn handle_message(
-  msg: chrome.RuntimeMessage(background.Action),
-  sender: chrome.MessageSender,
+  msg: runtime.RuntimeMessage(actions.Action),
+  _sender: runtime.MessageSender,
+  send_response: runtime.SendResponse(String, a),
 ) {
-  echo sender.tab
   case msg.request {
-    Click(el:) -> echo { "supposed to click: " <> el }
+    actions.Click(el:) -> echo { "supposed to click: " <> el }
   }
+  send_response("my response")
 }
