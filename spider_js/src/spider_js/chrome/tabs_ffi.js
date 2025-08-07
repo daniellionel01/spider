@@ -1,6 +1,6 @@
 import * as option from "../../../gleam_stdlib/gleam/option.mjs";
 import { List } from "../../../gleam_stdlib/gleam.mjs";
-import { make_option } from "../chrome_ffi.js";
+import { make_option } from "./runtime_ffi.js";
 import {
   TabUnloaded,
   TabLoading,
