@@ -15,13 +15,9 @@
 
 TODO
 
-## Additional Resources
-
-- TODO: Bot evasion report
-- TODO: Stress test report on cpu, memory usage. How much can you handle with a VPS of size X?
-
 ## Future Work
 
+- TODO: Stress test report on cpu, memory usage. How much can you handle with a VPS of size X?
 - [Bot Detection Tests](./spider_bot_detection/README.md) - Test various bot detectors to avoid captchas and account bans.
 - [Large Action Model](./spider_lam/README.md) - Give LLMs controller over the browser for self-healing workflows.
 
