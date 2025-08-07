@@ -4,4 +4,9 @@
 - [x] llm + https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/chrome/index.d.ts
 - [x] model query info in tabs_query function
 
+## Plan Stream (07-08-2025)
+
 - [ ] figure out async / sync runtime send message call
+- [ ] launch browser functionality
+- [ ] setup a server w/ ws
+- [ ] setup communication between ws and browser extension
