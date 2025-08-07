@@ -5,5 +5,6 @@ _Not all of these are implemented, this is a list of what we eventually want to 
 * Cross-browser (Chromium, WebKit & Firefox)
 * Session Tracing & Replay
 * Interactive Live Feed
+* Managed virtualized display for headful launch on a server
 * LLM controls (Large Action Model)
 * Suitable for bot evasion
