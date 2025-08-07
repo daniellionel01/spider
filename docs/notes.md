@@ -6,7 +6,7 @@
 
 ## Plan Stream (07-08-2025)
 
-- [ ] figure out async / sync runtime send message call
+- [ ] reduce chrome ffi to what we really need
 - [ ] launch browser functionality
 - [ ] setup a server w/ ws
 - [ ] setup communication between ws and browser extension
